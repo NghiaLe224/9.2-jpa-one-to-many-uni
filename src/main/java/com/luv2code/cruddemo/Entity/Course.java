@@ -2,6 +2,9 @@ package com.luv2code.cruddemo.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "course")
 public class Course {
@@ -17,11 +20,23 @@ public class Course {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private List<Review> review;
+
     public Course() {
     }
 
     public Course(String title ) {
         this.title = title;
+    }
+
+    public List<Review> getReview() {
+        return review;
+    }
+
+    public void setReview(List<Review> review) {
+        this.review = review;
     }
 
     public int getId() {
@@ -54,5 +69,13 @@ public class Course {
                 "title='" + title + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    public void addReview(Review theReview){
+
+        if (review == null){
+            this.review = new ArrayList<>();
+        }
+        this.review.add(theReview);
     }
 }

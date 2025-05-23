@@ -3,6 +3,7 @@ package com.luv2code.cruddemo;
 import com.luv2code.cruddemo.Entity.Course;
 import com.luv2code.cruddemo.Entity.Instructor;
 import com.luv2code.cruddemo.Entity.InstructorDetail;
+import com.luv2code.cruddemo.Entity.Review;
 import com.luv2code.cruddemo.dao.AppDAO;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
@@ -36,8 +37,40 @@ public class CruddemoApplication {
 //			updateCourse(appDAO);
 
 //			deleteInstructorById(appDAO);
-			deleteCourse(appDAO);
+//			deleteCourse(appDAO);
+//			addCourseAndReview(appDAO);
+//			retrieveCourseAndReviews(appDAO);
+			deleteCourseAndReview(appDAO);
 		};
+	}
+
+	private void deleteCourseAndReview(AppDAO appDAO) {
+		System.out.println("Deleting course");
+		int theId = 10;
+		appDAO.deleteCourseAndReviewsByCourseId(10);
+	}
+
+	private void retrieveCourseAndReviews(AppDAO appDAO) {
+		int theId = 10;
+		Course course = appDAO.findCourseAndReviewsByCourseId(theId);
+		System.out.println("Course :" + course);
+		System.out.println("Reviews :" + course.getReview());
+	}
+
+	private void addCourseAndReview(AppDAO appDAO) {
+		Course course = new Course("How to be a hot Youtuber");
+
+		Review review1 = new Review("Good course");
+		Review review2 = new Review("Awesome course");
+		Review review3 = new Review("Great course");
+
+		course.addReview(review1);
+		course.addReview(review2);
+		course.addReview(review3);
+
+		appDAO.save(course);
+
+		System.out.println("DONE");
 	}
 
 	private void deleteCourse(AppDAO appDAO) {

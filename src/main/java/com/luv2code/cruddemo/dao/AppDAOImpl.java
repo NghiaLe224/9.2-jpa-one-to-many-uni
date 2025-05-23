@@ -102,4 +102,25 @@ public class AppDAOImpl implements AppDAO {
         Course course = entityManager.find(Course.class, id);
         entityManager.remove(course);
     }
+
+    @Override
+    @Transactional
+    public void save(Course course) {
+        entityManager.persist(course);
+    }
+
+    @Override
+    public Course findCourseAndReviewsByCourseId(int id) {
+        String query = "select c from Course c join fetch c.review where c.id = :data";
+        return entityManager.createQuery(query, Course.class).setParameter("data",id).getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseAndReviewsByCourseId(int id) {
+        Course course = entityManager.find(Course.class, id);
+        entityManager.remove(course);
+    }
+
+
 }
